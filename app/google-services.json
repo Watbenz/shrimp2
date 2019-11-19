@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "667101397667",
+    "firebase_url": "https://shrimp-d772a.firebaseio.com",
+    "project_id": "shrimp-d772a",
+    "storage_bucket": "shrimp-d772a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:667101397667:android:a57890a1b96e8a17aa7516",
+        "android_client_info": {
+          "package_name": "com.ku.sa.shrimp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "667101397667-ddet72478dbl03o721ja7vo4q4entp5j.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ku.sa.shrimp",
+            "certificate_hash": "d93278b53b02ac874ff15fcf51a2bbdb631c0701"
+          }
+        },
+        {
+          "client_id": "667101397667-ktd9ohqltjqqf1j1ngmjv4f4e50ummot.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBfDSt41K0KMm8_45P9awhG2WBHy7jMWig"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "667101397667-ktd9ohqltjqqf1j1ngmjv4f4e50ummot.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
