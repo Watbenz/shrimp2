@@ -34,7 +34,7 @@ class LoginRepository(val dataSource: LoginDataSource, private val context: Cont
     init {
         // If user credentials will be cached in local storage, it is recommended it be encrypted
         // @see https://developer.android.com/training/articles/keystore
-        checkOnlineState()
+//        checkOnlineState()
         user = null
     }
 
@@ -54,9 +54,9 @@ class LoginRepository(val dataSource: LoginDataSource, private val context: Cont
         return result
     }
 
-    fun checkOnlineState(){
-        val name = readUsername()
-    }
+//    fun checkOnlineState(){
+//        val name = readUsername()
+//    }
 
     private fun writeUsername(name: String) {
         // save file in login.json
@@ -70,12 +70,12 @@ class LoginRepository(val dataSource: LoginDataSource, private val context: Cont
         }
     }
 
-    private fun readUsername(): String {
-        // get user name from file
-        val fis = InputStreamReader(context!!.openFileInput(FILE_NAME))
-        val loginData = Gson().fromJson(BufferedReader(fis), LoggedInUser::class.java)
-        return loginData.username
-    }
+//    private fun readUsername(): String {
+//        // get user name from file
+//        val fis = InputStreamReader(context!!.openFileInput(FILE_NAME))
+//        val loginData = Gson().fromJson(BufferedReader(fis), LoggedInUser::class.java)
+//        return loginData.username
+//    }
 
     fun register(user: User) {
 

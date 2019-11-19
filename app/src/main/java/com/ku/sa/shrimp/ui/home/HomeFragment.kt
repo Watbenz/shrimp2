@@ -31,26 +31,26 @@ class HomeFragment : Fragment() {
         val root = inflater.inflate(R.layout.fragment_home, container, false)
 
         // TODO: add shrimp and pond by firebase
-        val str = "31/12/1998"
-        val date = Util.DATE_FORMAT.parse(str)!!
-
-        val arrShrimp = ArrayList<Shrimp>().apply {
-            add(Shrimp(1, 1, 2000, date))
-            add(Shrimp(1, 2, 2000, date))
-            add(Shrimp(2, 1, 2000, date))
-            add(Shrimp(3, 2, 2000, date))
-            add(Shrimp(4, 1, 2000, date))
-            add(Shrimp(4, 2, 2000, date))
-            add(Shrimp(5, 1, 2000, date))
-        }
-        val shrimpType = resources.getStringArray(R.array.shrimpType).toCollection(ArrayList())
-        val arrPond = arrayListOf("A", "B", "C", "D", "E")
-
-        val recycler: RecyclerView = root.findViewById(R.id.recyclerView_farm)
-        recycler.also {
-            it.layoutManager = LinearLayoutManager(context)
-            it.adapter = FarmItemAdapter(arrPond, arrShrimp, shrimpType)
-        }
+//        val str = "31/12/1998"
+//        val date = Util.DATE_FORMAT.parse(str)!!
+//
+//        val arrShrimp = ArrayList<Shrimp>().apply {
+//            add(Shrimp(1, 1, 2000, date))
+//            add(Shrimp(1, 2, 2000, date))
+//            add(Shrimp(2, 1, 2000, date))
+//            add(Shrimp(3, 2, 2000, date))
+//            add(Shrimp(4, 1, 2000, date))
+//            add(Shrimp(4, 2, 2000, date))
+//            add(Shrimp(5, 1, 2000, date))
+//        }
+//        val shrimpType = resources.getStringArray(R.array.shrimpType).toCollection(ArrayList())
+//        val arrPond = arrayListOf("A", "B", "C", "D", "E")
+//
+//        val recycler: RecyclerView = root.findViewById(R.id.recyclerView_farm)
+//        recycler.also {
+//            it.layoutManager = LinearLayoutManager(context)
+//            it.adapter = FarmItemAdapter(arrPond, arrShrimp, shrimpType)
+//        }
 
 
         return root
