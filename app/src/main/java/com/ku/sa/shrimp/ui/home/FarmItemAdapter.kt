@@ -16,30 +16,30 @@ class FarmItemAdapter(val ponds: ArrayList<String>, val shrimps: ArrayList<Shrim
     // counting algorithm count shrimps by bit 00
 
     private val __shrimpAtPond = ArrayList<Int>(Collections.nCopies(ponds.size, 0)).apply {
-        shrimps.forEach{
-            var point = 0
-            when (it.shrimpCode) {
-                1 -> point = 1
-                2 -> point = 2
-            }
-            val pos = it.p_id
-            this[pos] += point
-        }
+//        shrimps.forEach{
+//            var point = 0
+//            when (it.shrimpCode) {
+//                1 -> point = 1
+//                2 -> point = 2
+//            }
+//            val pos = it.p_id
+//            this[pos] += point
+//        }
     }
 
     override fun onBindViewHolder(holder: ViewHolder, i: Int) {
-
-        var headText = "บ่อที่ $i"
-        var sType = __shrimpAtPond[i]
-
-        if (sType and 1 == 1) headText += " ${type[0]}"
-        sType = sType shl 1
-        if (sType and 1 == 1) headText += " ${type[1]}"
+//
+//        var headText = "บ่อที่ $i"
+//        var sType = __shrimpAtPond[i]
+//
+//        if (sType and 1 == 1) headText += " ${type[0]}"
+//        sType = sType shl 1
+//        if (sType and 1 == 1) headText += " ${type[1]}"
 
 
 
         holder.apply {
-            getTextPondName.text = headText
+            getTextPondName.text = "VOLOLO"
 //            getTextRelease.text =
         }
     }

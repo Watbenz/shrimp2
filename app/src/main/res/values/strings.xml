@@ -29,4 +29,8 @@
         <item>กุ้งก้ามกราม</item>
         <item>กุ้งขาว</item>
     </string-array>
+
+    <string name="title_activity_info">InfoActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 </resources>

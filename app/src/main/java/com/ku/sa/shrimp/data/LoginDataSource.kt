@@ -30,21 +30,22 @@ class LoginDataSource {
 
             val handler = Handler()
 
-            Thread().run {
-                handler.postDelayed({
+
+//                handler.postDelayed({
 
 //                        Log.i("FirebaseDB", "password")
 //                        Log.i("FirebaseDB", password)
-                        Log.i("FirebaseDB", out?.password)
+//                        Log.i("FirebaseDB", out?.password)
                     if (out != null && out!!.password == password) {
                         Log.i("FirebaseDB", out?.password)
                         success = true
                     }
+//
+//                }, 1000)
 
-                }, 1000)
-            }
 
 
+                        Log.i("FirebaseDB", success.toString())
 
             if (success) {
                 return Result.Success(LoggedInUser(username))
@@ -98,7 +99,17 @@ class LoginDataSource {
         // WHERE name == username
         val mRef = FirebaseDatabase.getInstance().getReference("users")
         val query = mRef.orderByChild("username").equalTo(username)
-        query.addListenerForSingleValueEvent(listener)
+        query.addValueEventListener(object : ValueEventListener{
+            override fun onCancelled(p0: DatabaseError) {
+            }
+
+            override fun onDataChange(p0: DataSnapshot) {
+                for (s in p0.children) {
+                    s.ref.child("login").setValue(true)
+                }
+            }
+
+        })
     }
 
 
