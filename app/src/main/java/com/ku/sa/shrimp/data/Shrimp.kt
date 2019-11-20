@@ -10,7 +10,7 @@ data class Shrimp(
 ) {
     // auto count id
     private companion object {
-        var shrimp_id: Int = 0
+        var shrimp_id: Int = 1
     }
 
     // +3 month since start time

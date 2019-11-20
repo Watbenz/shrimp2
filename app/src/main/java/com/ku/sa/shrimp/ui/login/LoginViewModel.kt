@@ -1,5 +1,6 @@
 package com.ku.sa.shrimp.ui.login
 
+import android.os.Handler
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -19,10 +20,15 @@ class LoginViewModel(val loginRepository: LoginRepository) : ViewModel() {
 
     fun login(username: String, password: String) {
         // can be launched in a separate asynchronous job
+
         val result = loginRepository.login(username, password)
 
         if (result is Result.Success) {
             _loginResult.value = LoginResult(success = LoggedInUserView(username))
+        } else if (result is Result.Fail) {
+            _loginForm.value = LoginFormState(passwordError = R.string.username_pass_wrong)
+            _loginForm.value = LoginFormState(passwordError = null)
+
         } else {
             _loginResult.value = LoginResult(error = R.string.login_failed)
         }
