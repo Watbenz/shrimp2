@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#0099cc"
+    tools:context=".InfoActivity">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        android:background="@drawable/sea" >
+
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:id="@+id/fullscreen_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="100dp"
+                    android:layout_height="115dp"
+                    android:scaleType="fitStart"
+                    android:src="@drawable/shrimp" />
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:gravity="center"
+                    android:text="บ่อเลี้ยงและกุ้ง   คันบ่อกว้างประมาณ 2 เมตร ลึกประมาณ 2 เมตร น้ำลึก 1.8 เมตร ขนาดบ่อโดยประมาณ  กว้าง 46 เมตร ยาว 100 เมตร ควรจะเป็นดินเหนียว เพราะถ้าเป็นดินร่วนปนทรายกุ้งจะเดินไม่ได้  จำนวนลูกกุ้งที่ลง 400000 ตัว/บ่อ ราคา 36000 บาท(16/9/2562) เครื่องตีน้ำ 1 ตัว/บ่อ  "
+                    android:textColor="#005044"
+                    android:textSize="20sp" />
+
+                <ImageView
+                    android:layout_width="100dp"
+                    android:layout_height="115dp"
+                    android:scaleType="fitStart"
+                    android:src="@drawable/food" />
+
+                <TextView
+                    android:id="@+id/textView1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:gravity="center"
+                    android:text="อาหาร    อัตราส่วนอาหาร 1 กิโลกรัม/ต่อกุ้งก้ามกราม 10 กิโลกรัม และจะวางยอเมื่อกุ้งก้ามกรามมีอายุ 1 เดือน โดยในยอให้อาหาร 1 ช้อนโต๊ะต่ออาหารกุ้ง2 กิโลกรัม
+    เปลี่ยนเบอร์อาหารกุ้งจะพิจารณาจากขนาดของกุ้ง ***ข้อควรระวัง***  1.ถ้าให้อาหารเบอร์ใหญ่ก่อน กุ้งจะตัวใหญ่ไม่เท่ากัน จะแกร็นและโตไม่ทัน   2.มีกุ้งบางตัวที่กินอาหารใหญ่ไม่ได้ 3.อาหารจะมีเบอร์ไล่ลำดับไป 1 – 4"
+                    android:textColor="#005044"
+                    android:textSize="20sp" />
+
+                <ImageView
+                    android:layout_width="100dp"
+                    android:layout_height="115dp"
+                    android:scaleType="fitStart"
+                    android:src="@drawable/water" />
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:gravity="center"
+                    android:text="น้ำกุ้ง   สังเกตจากสีของน้ำได้โดย ถ้าสีน้ำเขียวอ่อนๆ คือดี(ค่า pH 7.5 - 8.5)  	ถ้าน้ำขาวเลย กุ้งจะลอกครอบไม่หยุด ต้องใส่ปูน Calcium เพื่อให้หยุดการลอกคราบ ถ้าน้ำสีเขียวเข้ม ให้ถ่ายน้ำใหม่"
+                    android:textColor="#005044"
+                    android:textSize="20sp" />
+
+                <ImageView
+                    android:layout_width="100dp"
+                    android:layout_height="115dp"
+                    android:scaleType="fitStart"
+                    android:src="@drawable/lake" />
+
+                <TextView
+                    android:id="@+id/textView3"
+                    android:layout_width="match_parent"
+                    android:layout_height="82dp"
+                    android:layout_margin="20dp"
+                    android:gravity="center"
+                    android:text="การเตรียมบ่อ 	1 . ตากบ่อให้แห้ง เอาเลนก้นบ่อออก(สำหรับบ่อเก่า)    2. หว่านปูนเม็ดคุมขี้เลน/พื้นบ่อ    3. สูบน้ำดีเข้าบ่อ  4. หว่านปูนปรับสภาพน้ำ  5. เพิ่มออกซิเจนในน้ํา  6. วัดค่า pH ให้อยู่ระหว่าง 7.5 – 8.5"
+                    android:textColor="#005044"
+                    android:textSize="20sp" />
+
+                <ImageView
+                    android:layout_width="100dp"
+                    android:layout_height="115dp"
+                    android:scaleType="fitStart"
+                    android:src="@drawable/eating" />
+
+                <TextView
+                    android:id="@+id/textView4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:gravity="center"
+                    android:text="การให้อาหาร   ให้อาหารสำหรับลูกกุ้งเล็ก กุ้งเล็กให้วันละมื้อ ช่วงเช้า ใส่ปูนปรับสภาพน้ำระยะลูกกุ้งทุก ๆ 15 วัน ใส่ตอนเย็น ตีน้ำตั้งแต่ 18.00 น. ถึง 6.00 น. โดยประมาณ ระยะครึ่งเดือนเป็นต้นไปให้อาหารเบอร์ 2 เช้า 1 ประมาณบ่าย 3 หรือเหยื่อกุ้งหมด 1  ระยะ 2 เดือนครึ่งเตรียมขายได้ ขนาด 300 ตัว / กิโลกรัม"
+                    android:textColor="#005044"
+                    android:textSize="20sp" />
+
+
+                <ImageView
+                    android:layout_width="100dp"
+                    android:layout_height="115dp"
+                    android:scaleType="fitStart"
+                    android:src="@drawable/anxiety" />
+
+                <TextView
+                    android:id="@+id/textView5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:gravity="center"
+                    android:text="อุปสรรคในการเลี้ยง    โรคหลังขาว ต้องให้ยารักษากุ้งหลังขาว    น้ำเน่าเสีย เนื่องจากมีเศษอาหารเหลือมากเกินไป จะทำให้น้ำเป็นสีเขียวเข้ม     และฝนตกหนัก"
+                    android:textColor="#005044"
+                    android:textSize="20sp" />
+
+            </LinearLayout>
+        </ScrollView>
+
+    </FrameLayout>
+
+</FrameLayout>
