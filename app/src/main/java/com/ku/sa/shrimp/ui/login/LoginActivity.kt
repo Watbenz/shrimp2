@@ -264,39 +264,3 @@ fun EditText.afterTextChanged(afterTextChanged: (String) -> Unit) {
         override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
     })
 }
-
-//        val listener = object: ValueEventListener {
-//            override fun onCancelled(p0: DatabaseError) {
-//                // ignore
-//            }
-//
-//            override fun onDataChange(p0: DataSnapshot) {
-//                data.value?.clear()
-//
-//                if (p0.exists()) {
-//                    for (s in p0.children) {
-//                        val u = s.getValue(User::class.java)
-//                        data.value!!.add(u!!)
-//                    }
-//
-//                    data.observe(this@LoginActivity, Observer<ArrayList<User>> { arr ->
-//                        val textView = findViewById<TextView>(R.id.testText)
-//                        var text = ""
-//                        arr.forEach{
-//                            text += " ${it.username}"
-//                        }
-//                        textView.text = text
-//                    })
-//                }
-//            }
-//        }
-
-
-// register user
-//        val u1 = User(1, "Dif", "1234", "Parin", "Thong", "085", 1, true)
-//        val u2 = User(2, "ITAE", "4321", "BOSSO", "GENO", "085", 1, true)
-//        val u3 = User(3, "KOOKKIK", "1324", "CHRron", "Felel", "085", 1, true)
-//        loginViewModel.loginRepository.register(u1)
-//        loginViewModel.loginRepository.register(u2)
-//        loginViewModel.loginRepository.register(u3)
-

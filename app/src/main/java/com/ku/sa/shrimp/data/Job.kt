@@ -4,9 +4,9 @@ import java.util.*
 
 data class Job(
     var id: Int = -1,
-    var u_id: Int = -1,
-    var p_id: Int = -1,
-    var t_id: Int = -1,
+    var user: Int = -1,
+    var pond: Int = -1,
+    var task: Int = -1,
     var time: String = "",
     var output: Boolean = false
 )
