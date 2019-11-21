@@ -14,7 +14,7 @@
     <string name="login_failed">"Login failed"</string>
     <string name="username_pass_wrong">"email หรือ password ของท่านไม่ถูกต้อง"</string>
 
-    <string-array name="job">
+    <string-array name="task_name">
         <item>ให้อาหารกุ้ง</item>
         <item>วัดค่า pH น้ำกุ้ง</item>
         <item>เพิ่มออกซิเจนให้น้ำกุ้ง(ตีน้ำกุ้ง)</item>
@@ -25,9 +25,14 @@
         <item>เตรียมบ่อหลังขึ้นกุ้ง</item>
     </string-array>
 
-    <string-array name="shrimpType">
+    <string-array name="shrimp_type">
         <item>กุ้งก้ามกราม</item>
         <item>กุ้งขาว</item>
+    </string-array>
+
+    <string-array name="user_type">
+        <item>หัวหน้า</item>
+        <item>ลูกจ้าง</item>
     </string-array>
 
     <string name="title_activity_info">InfoActivity</string>
