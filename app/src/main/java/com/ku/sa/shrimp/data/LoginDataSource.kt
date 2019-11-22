@@ -28,24 +28,16 @@ class LoginDataSource {
             // if out is null or password not equal
             selectUser(username)
 
-            val handler = Handler()
 
+            if (out != null && out!!.password == password) {
+                Log.i("FirebaseDB", out?.password)
 
-//                handler.postDelayed({
-
-//                        Log.i("FirebaseDB", "password")
-//                        Log.i("FirebaseDB", password)
-//                        Log.i("FirebaseDB", out?.password)
-                    if (out != null && out!!.password == password) {
-                        Log.i("FirebaseDB", out?.password)
-                        success = true
-                    }
-//
-//                }, 1000)
+                success = true
+            }
 
 
 
-                        Log.i("FirebaseDB", success.toString())
+            Log.i("FirebaseDB", success.toString())
 
             if (success) {
                 return Result.Success(LoggedInUser(username))
@@ -55,11 +47,7 @@ class LoginDataSource {
             Log.i("FirebaseDB", success.toString())
             return Result.Fail(User())
 
-//            return Result.Fail(User())
 
-//            return if (success) Result.Success(LoggedInUser(username))
-//            else Result.Fail(User(username = username, password = password))
-//
         } catch (e: Throwable) {
             return Result.Error(IOException("Error logging in", e))
         }
@@ -99,7 +87,7 @@ class LoginDataSource {
         // WHERE name == username
         val mRef = FirebaseDatabase.getInstance().getReference("users")
         val query = mRef.orderByChild("username").equalTo(username)
-        query.addValueEventListener(object : ValueEventListener{
+        query.addValueEventListener(object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {
             }
 

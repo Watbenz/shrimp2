@@ -3,6 +3,7 @@ package com.ku.sa.shrimp.ui.home
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -11,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.gson.Gson
 import com.ku.sa.shrimp.PondInfoActivity
 import com.ku.sa.shrimp.R
 import com.ku.sa.shrimp.data.FarmManager
@@ -43,7 +45,11 @@ class HomeFragment : Fragment() {
             it.addOnItemTouchListener(RecyclerMenuClickListener(context, it, object : RecyclerMenuClickListener.OnItemClickListener {
                 override fun onItemClick(view: View?, position: Int) {
                     val intent = Intent(activity, PondInfoActivity::class.java)
-//                    intent.putExtra(value, )
+                    intent.putExtra("farmManager", Gson().toJson(farmMan, farmMan::class.java))
+                    intent.putExtra("position", position)
+                    startActivity(intent)
+
+                    Log.i("FirebaseDB", "item")
                 }
 
                 override fun onLongItemClick(view: View?, position: Int) {
