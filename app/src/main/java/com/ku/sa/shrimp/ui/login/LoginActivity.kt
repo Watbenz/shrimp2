@@ -77,16 +77,26 @@ class LoginActivity : AppCompatActivity() {
         var userValid = false
         var passValid = false
         liveUser.observe(this, Observer<String> {
-            userValid = it != ""
+            userValid = false
             if (it == "") username.error = "กรุณาใส่ Email"
+            else  {
+                username.error = null
+                userValid = true
+            }
             checkButton(userValid, passValid)
         })
         livePass.observe(this, Observer<String> {
-            passValid = (it != "" && it.length >= 5)
+            passValid = false
 
-            if (it == "") password.error = "กรุณาใส่ password"
-            else if (it.length < 6) password.error = "password ต้องมีมากกว่า 5 ตัวอักษรขึ้นไป"
-            checkButton(userValid, passValid)
+            when {
+                it == "" -> password.error = "กรุณาใส่ password"
+                it.length > 5 -> password.error = "password ต้องมีมากกว่า 5 ตัวอักษรขึ้นไป"
+                else -> {
+                    password.error = null
+                    passValid = true
+                    checkButton(userValid, passValid)
+                }
+            }
         })
 
 
