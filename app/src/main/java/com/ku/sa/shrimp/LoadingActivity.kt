@@ -15,15 +15,14 @@ class LoadingActivity : AppCompatActivity() {
     private val mAuth = FirebaseAuth.getInstance()
     private val mAuthListener = FirebaseAuth.AuthStateListener {
         val user: FirebaseUser? = it.currentUser
-        // if already login, login to app
-        // if not, let's login
+        // if already login, login to app, if not, let's login
         if (user != null) {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
             finish()
         }
         else {
-            val intent = Intent(this, InfoActivity::class.java)
+            val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
             finish()
         }
