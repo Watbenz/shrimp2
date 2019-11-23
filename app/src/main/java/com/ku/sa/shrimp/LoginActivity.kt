@@ -100,14 +100,4 @@ class LoginActivity : AppCompatActivity() {
     private fun checkButton(userValid: Boolean, passValid: Boolean) {
         login.isEnabled =  (userValid && passValid)
     }
-
-
-    // create account
-//        mAuth.createUserWithEmailAndPassword(uname, upass).addOnCompleteListener(this) { task ->
-//            if (!task.isSuccessful) {
-//                Toast.makeText(this@LoginActivity, "Authentication failed.", Toast.LENGTH_LONG).show()
-//            }
-//        }
-
-
 }
