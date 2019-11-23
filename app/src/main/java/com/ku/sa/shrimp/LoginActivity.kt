@@ -1,49 +1,27 @@
-package com.ku.sa.shrimp.ui.login
+package com.ku.sa.shrimp
 
 import android.content.Intent
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.ku.sa.shrimp.InfoActivity
 
-import com.ku.sa.shrimp.R
+import com.ku.sa.shrimp.ui.login.LoginViewModel
+import com.ku.sa.shrimp.ui.login.LoginViewModelFactory
 import kotlinx.android.synthetic.main.activity_login.*
-import java.util.*
-import kotlin.collections.ArrayList
 
 
 class LoginActivity : AppCompatActivity() {
 
     // login firebase variable
     private val mAuth = FirebaseAuth.getInstance()
-    private val mAuthListener = FirebaseAuth.AuthStateListener {
-        val user: FirebaseUser? = it.currentUser
-        if (user == null) {
-//            TODO("user is sign in")
-//            Toast.makeText(this, "has no account", Toast.LENGTH_LONG).show()
-        } else {
-//            TODO("user is not sign in")
-//            Toast.makeText(this, "has account", Toast.LENGTH_LONG).show()
-        }
-    }
-
-    override fun onStart() {
-        super.onStart()
-        mAuth.addAuthStateListener(mAuthListener)
-    }
-
-    override fun onStop() {
-        super.onStop()
-        mAuth.removeAuthStateListener(mAuthListener)
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,7 +34,9 @@ class LoginActivity : AppCompatActivity() {
         val loading = loading
 
         // create LoginViewModel
-        val loginViewModel = ViewModelProviders.of(this, LoginViewModelFactory())
+        val loginViewModel = ViewModelProviders.of(this,
+            LoginViewModelFactory()
+        )
             .get(LoginViewModel::class.java)
 
         val liveUser = MutableLiveData<String>()
@@ -90,18 +70,19 @@ class LoginActivity : AppCompatActivity() {
 
             when {
                 it == "" -> password.error = "กรุณาใส่ password"
-                it.length > 5 -> password.error = "password ต้องมีมากกว่า 5 ตัวอักษรขึ้นไป"
+                it.length <= 5 -> password.error = "password ต้องมีมากกว่า 5 ตัวอักษรขึ้นไป"
                 else -> {
                     password.error = null
                     passValid = true
-                    checkButton(userValid, passValid)
                 }
             }
+            checkButton(userValid, passValid)
         })
 
 
         login.setOnClickListener {
-            // login
+            // login.
+            loading.visibility = View.VISIBLE
             mAuth.signInWithEmailAndPassword(liveUser.value!!, livePass.value!!)
                 .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
@@ -112,6 +93,7 @@ class LoginActivity : AppCompatActivity() {
                     Toast.makeText(this@LoginActivity, "Email หรือ Password ของท่านไม่ถูกต้อง", Toast.LENGTH_LONG).show()
                 }
             }
+            loading.visibility = View.GONE
         }
     }
 
