@@ -16,6 +16,7 @@ import com.google.firebase.auth.FirebaseUser
 import com.ku.sa.shrimp.ui.login.LoginViewModel
 import com.ku.sa.shrimp.ui.login.LoginViewModelFactory
 import kotlinx.android.synthetic.main.activity_login.*
+import kotlin.math.abs
 
 
 class LoginActivity : AppCompatActivity() {
@@ -34,10 +35,10 @@ class LoginActivity : AppCompatActivity() {
         val loading = loading
 
         // create LoginViewModel
-        val loginViewModel = ViewModelProviders.of(this,
-            LoginViewModelFactory()
-        )
-            .get(LoginViewModel::class.java)
+//        val loginViewModel = ViewModelProviders.of(this,
+//            LoginViewModelFactory()
+//        )
+//            .get(LoginViewModel::class.java)
 
         val liveUser = MutableLiveData<String>()
         val livePass = MutableLiveData<String>()
@@ -83,7 +84,9 @@ class LoginActivity : AppCompatActivity() {
         login.setOnClickListener {
             // login.
             loading.visibility = View.VISIBLE
-            mAuth.signInWithEmailAndPassword(liveUser.value!!, livePass.value!!)
+
+
+            mAuth.signInWithEmailAndPassword(convert(liveUser.value!!), livePass.value!!)
                 .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     val intent = Intent(this, InfoActivity::class.java)
@@ -99,5 +102,16 @@ class LoginActivity : AppCompatActivity() {
 
     private fun checkButton(userValid: Boolean, passValid: Boolean) {
         login.isEnabled =  (userValid && passValid)
+    }
+
+    private fun convert(old: String) : String {
+        val byteArray = old.toByteArray(Charsets.UTF_16)
+        var output = ""
+        byteArray.forEach {
+            val num = 'A'.toInt() + (abs(it.toInt()) % 26)
+            output +=  num.toChar()
+        }
+        if (output.length > 25) output = output.subSequence(0, 25).toString()
+        return "$output@gmail.com"
     }
 }

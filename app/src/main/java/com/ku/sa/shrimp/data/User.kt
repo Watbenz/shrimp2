@@ -1,7 +1,7 @@
 package com.ku.sa.shrimp.data
 
 data class User(
-    var id: Int = -1,
+    var id: String = "",
     var username: String = "",
     var password: String = "",
     var fName: String = "",

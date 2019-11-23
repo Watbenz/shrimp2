@@ -46,9 +46,4 @@ class NotificationsFragment : Fragment() {
         return root
     }
 
-    private fun register() {
-        // create account
-
-    }
-
 }

@@ -14,6 +14,7 @@ import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 import com.ku.sa.shrimp.data.User
 import kotlinx.android.synthetic.main.activity_register.*
 import java.nio.charset.Charset
@@ -29,8 +30,6 @@ class RegisterActivity : AppCompatActivity() {
         setContentView(R.layout.activity_register)
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        var enabled = false
-
 
         val editTextArray = arrayListOf(
             fname_editText.editText!!,          // 0
@@ -131,13 +130,18 @@ class RegisterActivity : AppCompatActivity() {
             val fname = dataArray[0].value!!
             val lname = dataArray[1].value!!
             val tel = if (dataArray[5].value == null) "" else dataArray[5].value
-            val email = if (dataArray[4].value == null) "" else dataArray[4].value
-            val newUser = User(-1, username, password, fname, lname, tel!!, 1)
+//            val email = if (dataArray[4].value == null) "" else dataArray[4].value
+            val newUser = User("", username, password, fname, lname, tel!!, 1)
 
             Log.i("registery", "waiting")
             val convertedName = convert(username)
             mAuth.createUserWithEmailAndPassword(convertedName, password).addOnCompleteListener(this) { task ->
-                if (!task.isSuccessful) {
+                if (task.isSuccessful) {
+                    // create data on firebase
+                    val user = task.result!!.user!!.uid
+                    newUser.id = user
+                    val mRef = FirebaseDatabase.getInstance().getReference("users").child(user)
+                    mRef.setValue(newUser)
                     Toast.makeText(applicationContext, "คุณ $fname $lname ถูกเพิ่มเข้าสู่ระบบแล้ว", Toast.LENGTH_LONG).show()
                     finish()
                 }
@@ -147,7 +151,6 @@ class RegisterActivity : AppCompatActivity() {
                 }
             }
         }
-
     }
 
     private fun convert(old: String) : String {

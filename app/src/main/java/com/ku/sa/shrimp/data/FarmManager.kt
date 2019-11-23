@@ -64,9 +64,9 @@ class FarmManager(context: Context) {
 
         // user dummy
         users.value = ArrayList<User>().apply {
-            User(1, "Dif", "1234", "Parin", "Thong", "085", 1, false)
-            User(2, "ITAE", "4321", "BOSSO", "GENO", "085", 1, false)
-            User(3, "KOOKKIK", "1324", "CHRron", "Felel", "085", 1, false)
+            User("", "Dif", "1234", "Parin", "Thong", "085", 1, false)
+            User("", "ITAE", "4321", "BOSSO", "GENO", "085", 1, false)
+            User("", "KOOKKIK", "1324", "CHRron", "Felel", "085", 1, false)
         }
 
         // linking shrimp and sea
