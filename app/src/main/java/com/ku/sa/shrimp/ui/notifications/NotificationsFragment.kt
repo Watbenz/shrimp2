@@ -1,5 +1,6 @@
 package com.ku.sa.shrimp.ui.notifications
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -7,7 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -17,10 +17,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 import com.ku.sa.shrimp.LoginActivity
 import com.ku.sa.shrimp.R
 import com.ku.sa.shrimp.RegisterActivity
@@ -31,7 +28,11 @@ import com.ku.sa.shrimp.data.Util
 class NotificationsFragment : Fragment() {
 
     private lateinit var notificationsViewModel: NotificationsViewModel
+    private lateinit var listener: ValueEventListener
+    private var mRef = FirebaseDatabase.getInstance().getReference()
+    lateinit var query1: Query
 
+    @SuppressLint("SetTextI18n")
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -74,10 +75,9 @@ class NotificationsFragment : Fragment() {
                 // load data form db
                 // SELECT type FROM users
                 // WHERE type == 1
-                val db = FirebaseDatabase.getInstance().getReference("users")
-                val query = db.orderByChild("type").equalTo(1.0)
+                query1 = mRef.child("users").orderByChild("type").equalTo(1.0)
 
-                var arr = MutableLiveData<ArrayList<User>>()
+                val arr = MutableLiveData<ArrayList<User>>()
                 arr.value = ArrayList()
                 recycler.also {
                     it.layoutManager = LinearLayoutManager(context)
@@ -89,7 +89,7 @@ class NotificationsFragment : Fragment() {
                 })
 
 
-                query.addValueEventListener(object : ValueEventListener {
+                listener = object : ValueEventListener {
                     override fun onCancelled(p0: DatabaseError) {}
                     override fun onDataChange(p0: DataSnapshot) {
                         Log.i("registery", "onDataChange")
@@ -100,7 +100,8 @@ class NotificationsFragment : Fragment() {
                         }
                         arr.value = tmp
                     }
-                })
+                }
+                query1.addValueEventListener(listener)
 
             }
             // hide register
@@ -114,10 +115,12 @@ class NotificationsFragment : Fragment() {
                 }
             }
         }
-
-
-
         return root
+    }
+
+    override fun onStop() {
+        super.onStop()
+        query1.removeEventListener(listener)
     }
 
 }

@@ -5,6 +5,7 @@ data class Job(
     var user_id: String = "",
     var pond_id: String = "",
     var task_id: String = "",
+    var description: String = "",
     var time: Long = -1,
     var output: Boolean = false,
     var accept: Int = JUST_SEND

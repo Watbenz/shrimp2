@@ -73,7 +73,7 @@ class RegisterActivity : AppCompatActivity() {
             when (i) {
                 in 0..3 -> {
                     each.observe(this, Observer {
-                        if (i == 2 && it.contains(Regex("[&=_'${'-'}+,<>${'{'}${'}'}{}.!]"))) {
+                        if (i in 0..2 && it.contains(Regex("[&=_'${'-'}+,<>${'{'}${'}'}{}.!]"))) {
                             editTextArray[i].error ="ไม่สารถใช้ตัวอักษร & = ${'_'} - + < > ${'['} ${']'} { } . ! ในชื่อได้"
                         }
                         else if (i == 3 && it.length < 6) {
@@ -142,7 +142,7 @@ class RegisterActivity : AppCompatActivity() {
 
                     // create data on firebase
                     val user = task.result!!.user!!.uid
-                    newUser.id = user
+                    newUser.user_id = user
                     val mRef = FirebaseDatabase.getInstance().getReference("users")
                     mRef.child(user).setValue(newUser)
 

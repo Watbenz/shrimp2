@@ -30,7 +30,6 @@ class FarmManager(context: Context) {
         uType.value = ArrayList()
         context.resources.getStringArray(R.array.user_type).forEach { uType.value!!.add(it) }
 
-        // TODO: dummy sea get from firebase
 
         // job dummy
         jobs.value = ArrayList<Job>().apply {

@@ -1,10 +1,7 @@
 package com.ku.sa.shrimp.ui.login
 
-import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.ku.sa.shrimp.data.LoginDataSource
-import com.ku.sa.shrimp.data.LoginRepository
 
 /**
  * ViewModel provider factory to instantiate LoginViewModel.

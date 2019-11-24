@@ -12,10 +12,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 import com.ku.sa.shrimp.data.User
 import com.ku.sa.shrimp.data.Util
 
@@ -29,6 +26,18 @@ class LoginActivity : AppCompatActivity() {
 
     // login firebase variable
     private val mAuth = FirebaseAuth.getInstance()
+    private lateinit var userFirebase: DatabaseReference
+    private val listener = object : ValueEventListener {
+        override fun onCancelled(p0: DatabaseError) {}
+        override fun onDataChange(p0: DataSnapshot) {
+            Util.currentUser = p0.getValue(User::class.java)!!
+        }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        userFirebase.removeEventListener(listener)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -96,19 +105,14 @@ class LoginActivity : AppCompatActivity() {
                 .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     val user = task.result!!.user!!.uid
-                    val mRef = FirebaseDatabase.getInstance().getReference("users").child(user)
-                    mRef.addValueEventListener(object : ValueEventListener {
-                        override fun onCancelled(p0: DatabaseError) {}
-                        override fun onDataChange(p0: DataSnapshot) {
-                            Util.currentUser = p0.getValue(User::class.java)!!
-                        }
-                    })
+                    userFirebase = FirebaseDatabase.getInstance().getReference("users")
+                    userFirebase.child(user).addValueEventListener(listener)
 
                     val intent = Intent(this, InfoActivity::class.java)
                     startActivity(intent)
                     finish()
                 } else {
-                    Toast.makeText(this@LoginActivity, "Email หรือ Password ของท่านไม่ถูกต้อง", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this@LoginActivity, "Username หรือ Password ของท่านไม่ถูกต้อง", Toast.LENGTH_LONG).show()
                 }
             }
             loading.visibility = View.GONE
