@@ -1,47 +1,46 @@
 package com.ku.sa.shrimp.ui.home
 
+import android.annotation.SuppressLint
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.database.*
 import com.ku.sa.shrimp.R
+import com.ku.sa.shrimp.data.Shrimp
+import com.ku.sa.shrimp.data.Util
+import com.ku.sa.shrimp.data.model.Pond
 import kotlinx.android.synthetic.main.item_farm.view.*
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
-class FarmItemAdapter : RecyclerView.Adapter<FarmItemAdapter.ViewHolder>() {
-    val mRef = FirebaseDatabase.getInstance().reference
-    lateinit var query1: Query
-    lateinit var listener: ValueEventListener
+class FarmItemAdapter(
+    private val shrimp: MutableLiveData<ArrayList<Shrimp>>,
+    private val pond: ArrayList<Pond>,
+    private val shrimpCode: HashMap<String, String>
+) : RecyclerView.Adapter<FarmItemAdapter.ViewHolder>() {
 
-
-
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, i: Int) {
 
-        // SELECT pid FROM ponds
-        // WHERE pid == i
-//        query1 = mRef.child("shrimps").orderByChild("pond_id").equalTo(i.toDouble())
-//        query1.addValueEventListener(listener)
-//
-//        listener = object : ValueEventListener {
-//            override fun onCancelled(p0: DatabaseError) {}
-//            override fun onDataChange(p0: DataSnapshot) {
-//                for (s in p0.children) {
-//                    val shrimp = s.getValue()
-//                }
-//            }
-//        }
 
         holder.apply {
-            //            var shrimpType = ""
-//            farmMan.ponds.value!![i].shrimpType.forEach {shrimpType += "$it "}
-//            getTextPondName.text = "บ่อที่ ${farmMan.ponds.value!![i].id.toString()} $shrimpType"
-//            getTextRelease.text = "ลงวันที่ ${farmMan.shrimps.value!![i].shrimpStart}"
-//            getTextAmount.text = "${farmMan.shrimps.value!![i].shrimpAmount.toString()} ตัว"
+            val date = Date(shrimp.value!![i].shrimpStart)
+            val str = Util.DATE_FORMAT.format(date)
+            getTextPondName.text = "บ่อที่ ${i + 1} ${
+            shrimpCode[shrimp.value!![i].shrimpCode]}"
+            getTextRelease.text = "ลงวันที่ ${str}"
+            getTextAmount.text = "${shrimp.value!![i].shrimpAmount} ตัว"
         }
     }
 
-    override fun getItemCount(): Int = 0
+    override fun getItemCount(): Int {
+        Log.i("dataget", "Size: " + shrimp.value!!.size.toString())
+        return shrimp.value!!.size
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, pos: Int): ViewHolder {
 
