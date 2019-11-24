@@ -24,7 +24,7 @@
                     android:id="@+id/imageView"
                     android:layout_width="150dp"
                     android:layout_height="150dp"
-                    android:layout_marginTop="76dp"
+                    android:layout_marginTop="60dp"
                     android:tint="@color/yellow_american"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -49,6 +49,7 @@
                     android:layout_marginTop="12dp"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
+                    android:nestedScrollingEnabled="false"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
@@ -79,10 +80,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="28dp"
-                    android:layout_marginTop="364dp"
+                    android:layout_marginTop="30dp"
                     android:text="ลูกจ้าง"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toBottomOf="@+id/position_textView" />
 
                 <TextView
                     android:id="@+id/position_textView"

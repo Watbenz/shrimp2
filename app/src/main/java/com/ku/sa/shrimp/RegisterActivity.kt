@@ -131,8 +131,8 @@ class RegisterActivity : AppCompatActivity() {
             val fname = dataArray[0].value!!
             val lname = dataArray[1].value!!
             val tel = if (dataArray[5].value == null) "" else dataArray[5].value
-//            val email = if (dataArray[4].value == null) "" else dataArray[4].value
-            val newUser = User("", username, password, fname, lname, tel!!, 1)
+            val email = if (dataArray[4].value == null) "" else dataArray[4].value
+            val newUser = User("", username, password, fname, lname, tel!!, email!!,1)
 
             Log.i("registery", "waiting")
             val convertedName = Util.convert(username)

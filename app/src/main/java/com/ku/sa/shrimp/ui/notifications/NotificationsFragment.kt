@@ -31,7 +31,6 @@ import com.ku.sa.shrimp.data.Util
 class NotificationsFragment : Fragment() {
 
     private lateinit var notificationsViewModel: NotificationsViewModel
-    private val mAuth = FirebaseAuth.getInstance()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -57,7 +56,11 @@ class NotificationsFragment : Fragment() {
         }
 
         val pos = root.findViewById<TextView>(R.id.position_textView)
+        val label = root.findViewById<TextView>(R.id.worker_label)
+        val recycler = root.findViewById<RecyclerView>(R.id.employee_recycler)
         val name = root.findViewById<TextView>(R.id.worker_name_textView)
+
+
         name.text = "${Util.currentUser.fName} ${Util.currentUser.lName}"
 
         Log.i("registery", "current: " + Util.currentUser.toString())
@@ -73,17 +76,15 @@ class NotificationsFragment : Fragment() {
                 // WHERE type == 1
                 val db = FirebaseDatabase.getInstance().getReference("users")
                 val query = db.orderByChild("type").equalTo(1.0)
-                val recycler = root.findViewById<RecyclerView>(R.id.employee_recycler)
 
                 var arr = MutableLiveData<ArrayList<User>>()
                 arr.value = ArrayList()
                 recycler.also {
                     it.layoutManager = LinearLayoutManager(context)
-                    it.isNestedScrollingEnabled = false
                     it.adapter = WorkerDisplayAdapter(arr, false)
                 }
 
-                arr.observe(this, Observer { a ->
+                arr.observe(this, Observer {
                     recycler.adapter!!.notifyDataSetChanged()
                 })
 
@@ -105,7 +106,12 @@ class NotificationsFragment : Fragment() {
             // hide register
             1 -> {
                 pos.text = "ลูกน้อง"
+                label.text = "ข้อมูลทั่วไป"
                 register.isVisible = false
+                recycler.also {
+                    it.layoutManager = LinearLayoutManager(context)
+                    it.adapter = WorkerProfileAdapter()
+                }
             }
         }
 
