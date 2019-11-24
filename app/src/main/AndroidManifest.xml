@@ -24,8 +24,7 @@
         </activity>
         <activity
             android:name=".PondInfoActivity"
-            android:label="@string/title_activity_pond_info"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:label="@string/title_activity_pond_info" />
         <activity
             android:name=".InfoActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"

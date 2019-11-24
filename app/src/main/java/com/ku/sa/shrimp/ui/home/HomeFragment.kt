@@ -21,12 +21,11 @@ import com.ku.sa.shrimp.R
 import com.ku.sa.shrimp.data.Shrimp
 import com.ku.sa.shrimp.data.model.Pond
 import com.ku.sa.shrimp.ui.RecyclerMenuClickListener
-import kotlinx.android.synthetic.main.pond_crate_dialog.*
 
 
 class HomeFragment : Fragment() {
 
-    private val mRef = FirebaseDatabase.getInstance().getReference()
+    private val mRef = FirebaseDatabase.getInstance().reference
     private lateinit var homeViewModel: HomeViewModel
     private lateinit var query1: Query
     private lateinit var query2: Query
@@ -123,7 +122,7 @@ class HomeFragment : Fragment() {
                     object : RecyclerMenuClickListener.OnItemClickListener {
                         override fun onItemClick(view: View?, position: Int) {
                             val intent = Intent(activity, PondInfoActivity::class.java)
-                            intent.putExtra("position", position)
+                            intent.putExtra("position", position.toString())
                             startActivity(intent)
 
                             Log.i("FirebaseDB", "item")
@@ -145,7 +144,7 @@ class HomeFragment : Fragment() {
             // ...Irrelevant code for customizing the buttons and title
 
             val inflater = layoutInflater
-            val dialogView = inflater.inflate(R.layout.pond_crate_dialog, null)
+            val dialogView = inflater.inflate(R.layout.pond_create_dialog, null)
             dialogBuilder.setView(dialogView)
 
             // Load database
