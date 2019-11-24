@@ -38,10 +38,10 @@ class HomeFragment : Fragment() {
         val root = inflater.inflate(R.layout.fragment_home, container, false)
 
         val recycler: RecyclerView = root.findViewById(R.id.recyclerView_farm)
-        val farmMan = FarmManager(context!!.applicationContext)
+//        val farmMan = FarmManager(context!!.applicationContext)
         recycler.also {
             it.layoutManager = LinearLayoutManager(context)
-            it.adapter = FarmItemAdapter(farmMan, context!!)
+            it.adapter = FarmItemAdapter()
             it.addOnItemTouchListener(
                 RecyclerMenuClickListener(context, it, object : RecyclerMenuClickListener.OnItemClickListener {
                 override fun onItemClick(view: View?, position: Int) {

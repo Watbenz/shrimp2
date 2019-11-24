@@ -10,14 +10,4 @@ data class User(
     var email: String = "",
     var type: Int = -1,
     var isLogin: Boolean = false
-) {
-//    // auto count id
-//    private companion object {
-//        var user_id: Int = 1
-//    }
-
-
-//    init {
-//        user_id++
-//    }
-}
+)

@@ -39,8 +39,6 @@ class LoadingActivity : AppCompatActivity() {
             finish()
         }
         else {
-//            Util.currentUser =
-
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
             finish()

@@ -1,12 +1,17 @@
 package com.ku.sa.shrimp.data
 
-import java.util.*
-
 data class Job(
-    var id: Int = -1,
-    var user: Int = -1,
-    var pond: Int = -1,
-    var task: Int = -1,
-    var time: String = "",
-    var output: Boolean = false
-)
+    var job_id: String = "",
+    var user_id: String = "",
+    var pond_id: String = "",
+    var task_id: String = "",
+    var time: Long = -1,
+    var output: Boolean = false,
+    var accept: Int = JUST_SEND
+) {
+    companion object {
+        val ACCEPT = 1
+        val DENY = -1
+        val JUST_SEND = 0
+    }
+}

@@ -138,11 +138,14 @@ class RegisterActivity : AppCompatActivity() {
             val convertedName = Util.convert(username)
             mAuth.createUserWithEmailAndPassword(convertedName, password).addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
+                    Log.i("registery", "success")
+
                     // create data on firebase
                     val user = task.result!!.user!!.uid
                     newUser.id = user
-                    val mRef = FirebaseDatabase.getInstance().getReference("users").child(user)
-                    mRef.setValue(newUser)
+                    val mRef = FirebaseDatabase.getInstance().getReference("users")
+                    mRef.child(user).setValue(newUser)
+
                     Toast.makeText(applicationContext, "คุณ $fname $lname ถูกเพิ่มเข้าสู่ระบบแล้ว", Toast.LENGTH_LONG).show()
                     FirebaseAuth.getInstance().apply {
                         signOut()
@@ -157,8 +160,6 @@ class RegisterActivity : AppCompatActivity() {
             }
         }
     }
-
-
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
