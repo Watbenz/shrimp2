@@ -25,14 +25,14 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/fname_editText"
                     android:layout_width="144dp"
-                    android:layout_height="56dp"
+                    android:layout_height="60dp"
                     android:layout_marginStart="17dp"
-                    android:layout_marginTop="35dp"
+                    android:layout_marginTop="85dp"
                     android:hint="ชื่อ"
                     android:selectAllOnFocus="true"
                     app:errorEnabled="false"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/register_textView">
+                    app:layout_constraintTop_toTopOf="parent">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
@@ -44,18 +44,18 @@
                     android:id="@+id/register_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="600dp"
+                    android:layout_marginTop="60dp"
                     android:text="ยืนยัน"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.498"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toBottomOf="@+id/tel_editText" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/email_editText"
-                    android:layout_width="342dp"
-                    android:layout_height="53dp"
-                    android:layout_marginStart="16dp"
+                    android:layout_width="330dp"
+                    android:layout_height="60dp"
+                    android:layout_marginStart="17dp"
                     android:layout_marginTop="40dp"
                     android:hint="Email"
                     android:selectAllOnFocus="true"
@@ -73,9 +73,9 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/username_editText"
                     android:layout_width="330dp"
-                    android:layout_height="50dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="52dp"
+                    android:layout_height="60dp"
+                    android:layout_marginStart="17dp"
+                    android:layout_marginTop="40dp"
                     android:hint="Username"
                     android:selectAllOnFocus="true"
                     app:errorEnabled="false"
@@ -103,9 +103,9 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/lname_editText"
                     android:layout_width="167dp"
-                    android:layout_height="56dp"
-                    android:layout_marginStart="18dp"
-                    android:layout_marginTop="83dp"
+                    android:layout_height="60dp"
+                    android:layout_marginStart="17dp"
+                    android:layout_marginTop="85dp"
                     android:hint="นามสกุล"
                     android:selectAllOnFocus="true"
                     app:errorEnabled="false"
@@ -114,15 +114,15 @@
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
-                        android:layout_height="45dp"
+                        android:layout_height="match_parent"
                         android:inputType="textPersonName" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/pass_editText"
-                    android:layout_width="324dp"
-                    android:layout_height="49dp"
-                    android:layout_marginStart="16dp"
+                    android:layout_width="330dp"
+                    android:layout_height="60dp"
+                    android:layout_marginStart="17dp"
                     android:layout_marginTop="40dp"
                     android:hint="รหัสผ่าน"
                     android:selectAllOnFocus="true"
@@ -138,10 +138,10 @@
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/tel_editText"
-                    android:layout_width="324dp"
-                    android:layout_height="64dp"
+                    android:layout_width="330dp"
+                    android:layout_height="60dp"
                     android:layout_marginStart="17dp"
-                    android:layout_marginTop="43dp"
+                    android:layout_marginTop="40dp"
                     android:hint="เบอร์โทรศัพท์"
                     android:selectAllOnFocus="true"
                     app:errorEnabled="false"

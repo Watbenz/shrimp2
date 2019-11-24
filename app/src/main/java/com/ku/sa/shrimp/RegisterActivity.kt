@@ -16,6 +16,7 @@ import androidx.lifecycle.Observer
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.ku.sa.shrimp.data.User
+import com.ku.sa.shrimp.data.Util
 import kotlinx.android.synthetic.main.activity_register.*
 import java.nio.charset.Charset
 import java.util.*
@@ -134,7 +135,7 @@ class RegisterActivity : AppCompatActivity() {
             val newUser = User("", username, password, fname, lname, tel!!, 1)
 
             Log.i("registery", "waiting")
-            val convertedName = convert(username)
+            val convertedName = Util.convert(username)
             mAuth.createUserWithEmailAndPassword(convertedName, password).addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     // create data on firebase
@@ -143,6 +144,10 @@ class RegisterActivity : AppCompatActivity() {
                     val mRef = FirebaseDatabase.getInstance().getReference("users").child(user)
                     mRef.setValue(newUser)
                     Toast.makeText(applicationContext, "คุณ $fname $lname ถูกเพิ่มเข้าสู่ระบบแล้ว", Toast.LENGTH_LONG).show()
+                    FirebaseAuth.getInstance().apply {
+                        signOut()
+                        signInWithEmailAndPassword(Util.convert(Util.currentUser.username), Util.currentUser.password)
+                    }
                     finish()
                 }
                 else {
@@ -153,16 +158,7 @@ class RegisterActivity : AppCompatActivity() {
         }
     }
 
-    private fun convert(old: String) : String {
-        val byteArray = old.toByteArray(Charsets.UTF_16)
-        var output = ""
-        byteArray.forEach {
-            val num = 'A'.toInt() + (abs(it.toInt()) % 26)
-            output +=  num.toChar()
-        }
-        if (output.length > 25) output = output.subSequence(0, 25).toString()
-        return "$output@gmail.com"
-    }
+
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {

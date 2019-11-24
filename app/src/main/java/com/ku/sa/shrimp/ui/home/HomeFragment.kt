@@ -42,10 +42,10 @@ class HomeFragment : Fragment() {
         recycler.also {
             it.layoutManager = LinearLayoutManager(context)
             it.adapter = FarmItemAdapter(farmMan, context!!)
-            it.addOnItemTouchListener(RecyclerMenuClickListener(context, it, object : RecyclerMenuClickListener.OnItemClickListener {
+            it.addOnItemTouchListener(
+                RecyclerMenuClickListener(context, it, object : RecyclerMenuClickListener.OnItemClickListener {
                 override fun onItemClick(view: View?, position: Int) {
                     val intent = Intent(activity, PondInfoActivity::class.java)
-                    intent.putExtra("farmManager", Gson().toJson(farmMan, farmMan::class.java))
                     intent.putExtra("position", position)
                     startActivity(intent)
 

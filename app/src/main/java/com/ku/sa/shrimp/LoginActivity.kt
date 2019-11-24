@@ -12,6 +12,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import com.ku.sa.shrimp.data.User
+import com.ku.sa.shrimp.data.Util
 
 import com.ku.sa.shrimp.ui.login.LoginViewModel
 import com.ku.sa.shrimp.ui.login.LoginViewModelFactory
@@ -86,9 +92,18 @@ class LoginActivity : AppCompatActivity() {
             loading.visibility = View.VISIBLE
 
 
-            mAuth.signInWithEmailAndPassword(convert(liveUser.value!!), livePass.value!!)
+            mAuth.signInWithEmailAndPassword(Util.convert(liveUser.value!!), livePass.value!!)
                 .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
+                    val user = task.result!!.user!!.uid
+                    val mRef = FirebaseDatabase.getInstance().getReference("users").child(user)
+                    mRef.addValueEventListener(object : ValueEventListener {
+                        override fun onCancelled(p0: DatabaseError) {}
+                        override fun onDataChange(p0: DataSnapshot) {
+                            Util.currentUser = p0.getValue(User::class.java)!!
+                        }
+                    })
+
                     val intent = Intent(this, InfoActivity::class.java)
                     startActivity(intent)
                     finish()
@@ -102,16 +117,5 @@ class LoginActivity : AppCompatActivity() {
 
     private fun checkButton(userValid: Boolean, passValid: Boolean) {
         login.isEnabled =  (userValid && passValid)
-    }
-
-    private fun convert(old: String) : String {
-        val byteArray = old.toByteArray(Charsets.UTF_16)
-        var output = ""
-        byteArray.forEach {
-            val num = 'A'.toInt() + (abs(it.toInt()) % 26)
-            output +=  num.toChar()
-        }
-        if (output.length > 25) output = output.subSequence(0, 25).toString()
-        return "$output@gmail.com"
     }
 }
