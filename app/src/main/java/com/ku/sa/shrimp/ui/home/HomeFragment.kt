@@ -8,10 +8,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.Button
-import android.widget.Spinner
+import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,15 +16,21 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.database.*
 import com.ku.sa.shrimp.PondInfoActivity
 import com.ku.sa.shrimp.R
+import com.ku.sa.shrimp.data.Shrimp
+import com.ku.sa.shrimp.data.model.Pond
 import com.ku.sa.shrimp.ui.RecyclerMenuClickListener
+import kotlinx.android.synthetic.main.pond_crate_dialog.*
 
 
 class HomeFragment : Fragment() {
 
-    private val mRef = FirebaseDatabase.getInstance().getReference("shrimp_code")
+    private val mRef = FirebaseDatabase.getInstance().getReference()
     private lateinit var homeViewModel: HomeViewModel
-    private lateinit var query: Query
+    private lateinit var query1: Query
+    private lateinit var query2: Query
     private lateinit var listener: ValueEventListener
+    private lateinit var listener1: ValueEventListener
+    private lateinit var listener2: ValueEventListener
 
     @SuppressLint("SimpleDateFormat")
     override fun onCreateView(
@@ -80,32 +83,76 @@ class HomeFragment : Fragment() {
                 override fun onCancelled(p0: DatabaseError) {}
                 override fun onDataChange(p0: DataSnapshot) {
                     val work = ArrayList<String>()
+                    val ids = ArrayList<String>()
                     for (s in p0.children) {
                         work.add(s.child("name").getValue(String::class.java)!!)
+                        ids.add(s.child("s_id").getValue(String::class.java)!!)
                     }
 
+                    // set dropdown
                     val adapter = ArrayAdapter(context!!, R.layout.support_simple_spinner_dropdown_item, work)
                     adapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line)
+
                     val spinner = dialogView.findViewById<Spinner>(R.id.spinner)
+                    var selected  = -1
                     spinner.adapter = adapter
                     spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                        override fun onNothingSelected(p0: AdapterView<*>?) {}
-                        override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {}
+                        override fun onNothingSelected(p0: AdapterView<*>?) { selected = -1 }
+                        override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) { selected = p2 }
                     }
 
+                    val amount =  dialogView.findViewById<EditText>(R.id.shrimp_amount)
+                    val save = dialogView.findViewById<Button>(R.id.button)
+                    val desc = dialogView.findViewById<EditText>(R.id.description)
+                    val d = dialogBuilder.create()
+                    d.show()
+                    save.setOnClickListener {
 
+//                        val shrimpType = if (selected != -1) work[selected] else ""
+                        val srimp_amount = if (amount.text.toString() == "") -1 else amount.text.toString().toInt()
+                        val pond_desc = desc.text.toString().trim()
+
+                        if (selected == -1) {
+                            Toast.makeText(context!!, "กรุณาเลือกพันธุ์กุ้ง", Toast.LENGTH_LONG).show()
+                        }
+                        else if (srimp_amount == -1) {
+                            Toast.makeText(context!!, "กรุณาใส่จำนวนกุ้ง", Toast.LENGTH_LONG).show()
+                        }
+                        else {
+                            // create new object
+                            val pond = Pond("", pond_desc)
+                            val shrimp = Shrimp("", "", ids[selected], srimp_amount, System.currentTimeMillis())
+
+                            val pkey = mRef.child("ponds").push().key!!
+                            pond.pond_id = pkey
+                            mRef.child("ponds").child(pond.pond_id).setValue(pond)
+
+                            val skey = mRef.child("shrimps").push().key!!
+                            shrimp.s_id = skey
+                            shrimp.pond_id = pond.pond_id
+                            mRef.child("shrimps").child(shrimp.s_id).setValue(shrimp)
+
+                            Toast.makeText(context!!, "เพิ่มบ่อกุ้ง สำเร็จ", Toast.LENGTH_LONG).show()
+                            d.dismiss()
+                        }
+                    }
                 }
-
-
             }
-            mRef.addValueEventListener(listener)
+
+            query1 = mRef.child("shrimp_code")
+            query1.addValueEventListener(listener)
 
 
 
-            dialogBuilder.create().show()
         }
 
 
+
         return root
+    }
+
+    override fun onPause() {
+        super.onPause()
+        query1.removeEventListener(listener)
     }
 }
