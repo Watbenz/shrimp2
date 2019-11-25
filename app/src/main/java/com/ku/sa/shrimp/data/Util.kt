@@ -8,6 +8,7 @@ class Util {
     companion object {
         @SuppressLint("SimpleDateFormat")
         val DATE_FORMAT = SimpleDateFormat("dd/MM/yyyy")
+        val DATE_TIME_FORMAT = SimpleDateFormat("dd/MM/yyyy HH:mm")
         var currentUser: User = User()
 
         fun convert(old: String) : String {

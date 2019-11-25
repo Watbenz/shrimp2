@@ -65,11 +65,9 @@ class NotificationsFragment : Fragment() {
         name.text = "${Util.currentUser.fName} ${Util.currentUser.lName}"
 
         // set layout display for each user
-        Log.i("dialogjob2", "profile: " + Util.currentUser.toString())
         when (Util.currentUser.type) {
             0 -> {
                 pos.text = "หัวหน้า"
-                Log.i("registery", "on check")
 
                 // load data form db
                 // SELECT type FROM users
@@ -91,7 +89,6 @@ class NotificationsFragment : Fragment() {
                 listener = object : ValueEventListener {
                     override fun onCancelled(p0: DatabaseError) {}
                     override fun onDataChange(p0: DataSnapshot) {
-                        Log.i("registery", "onDataChange")
                         val tmp = ArrayList<User>()
                         for (s in p0.children) {
                             Log.i("registery", "data: " + s.getValue(User::class.java).toString())

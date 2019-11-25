@@ -7,8 +7,7 @@ data class Job(
     var task_id: String = "",
     var description: String = "",
     var time: Long = -1,
-    var output: Boolean = false,
-    var accept: Int = JUST_SEND
+    var output: Int = JUST_SEND
 ) {
     companion object {
         const val DOING = 2

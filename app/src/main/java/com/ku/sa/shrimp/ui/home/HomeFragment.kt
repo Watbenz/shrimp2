@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -46,14 +47,17 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        homeViewModel =
-            ViewModelProviders.of(this).get(HomeViewModel::class.java)
-
         val root = inflater.inflate(R.layout.fragment_home, container, false)
 
-
-        Log.i("dialogjob2", "user type: " + Util.currentUser.toString())
+        // wait for data
         when (Util.currentUser.type) {
+            -1 -> {
+                Toast.makeText(
+                    context,
+                    "กำลังรอข้อมูลจากฐานข้อมูล กรุณากดใหม่อีกครั้ง",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
             0 -> {
                 setViewForAdmin(root)
             }
@@ -62,15 +66,9 @@ class HomeFragment : Fragment() {
             }
         }
 
-
-
         return root
     }
 
-    //    override fun onPause() {
-//        super.onPause()
-//        query1.removeEventListener(listener1)
-//    }
     private fun setViewForAdmin(root: View) {
         val ponds = ArrayList<Pond>()
         val shrimps = MutableLiveData<ArrayList<Shrimp>>()
@@ -95,7 +93,6 @@ class HomeFragment : Fragment() {
                 }
             }
         })
-
 
         val listener3 = object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {}
@@ -134,7 +131,6 @@ class HomeFragment : Fragment() {
 
             shrimps.observe(this, Observer {
                 recycler.adapter!!.notifyDataSetChanged()
-//                Log.i("dataget", "calling")
             })
 
             it.addOnItemTouchListener(
@@ -149,9 +145,7 @@ class HomeFragment : Fragment() {
                             startActivity(intent)
                         }
 
-                        override fun onLongItemClick(view: View?, position: Int) {
-                            // ignore
-                        }
+                        override fun onLongItemClick(view: View?, position: Int) {}
                     }
                 ))
 

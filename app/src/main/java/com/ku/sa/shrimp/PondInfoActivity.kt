@@ -50,6 +50,7 @@ class PondInfoActivity : AppCompatActivity() {
 
         val pos = intent.getStringExtra("pos")!!.toInt()
         val pond:Pond = Gson().fromJson(intent.getStringExtra("pond")!!, Pond::class.java)
+        val task = ArrayList<Pair<String, String>> ()
         imageView.setImageResource(R.drawable.shrimp)
         worker_label.text = "รายชื่อลูกจ้าง"
         worker_name_textView.text = "บ่อที่ ${pos + 1}"
@@ -57,11 +58,20 @@ class PondInfoActivity : AppCompatActivity() {
         register.isVisible = false
         button_logout.isVisible = false
 
+        mRef.child("task_name").addValueEventListener(object : ValueEventListener {
+            override fun onCancelled(p0: DatabaseError) {}
+            override fun onDataChange(p0: DataSnapshot) {
+                task.clear()
+                p0.children.forEach {
+                    task.add(Pair(it.key!!, it.child("name").getValue(String::class.java)!!))
+                }
+            }
+        })
 //        recycler_layout.addView()
 
         employee_recycler.also {
             it.layoutManager = LinearLayoutManager(this)
-            it.adapter = WorkerAdapter(users, pond)
+            it.adapter = WorkerAdapter(users, pond, task)
         }
 
         users.observe(this, Observer {
