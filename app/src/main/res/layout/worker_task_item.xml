@@ -16,29 +16,36 @@
             android:id="@+id/detail_textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
             android:text="- นาย A" />
 
 
-        <TextView
-            android:id="@+id/testView_worker_time"
+        <View
+            android:id="@+id/view3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="08:00" />
+            android:layout_weight="1" />
 
         <TextView
             android:id="@+id/testView_worker_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
             android:text="31/10/19" />
 
-        <CheckBox
-            android:id="@+id/checkBox"
+        <TextView
+            android:id="@+id/testView_worker_time"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:button="@drawable/custom_checkbox" >
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:text="08:00" />
 
-        </CheckBox>
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            app:srcCompat="@drawable/custom_checkbox" />
 
 
     </LinearLayout>

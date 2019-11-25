@@ -66,7 +66,6 @@ class HomeFragment : Fragment() {
                         code[s1.key!!] = s1.child("name").getValue(String::class.java)!!
                 Log.i("dataget", "shrimpCode: ${key}")
 
-//                    }
                 }
             }
         })
@@ -112,7 +111,7 @@ class HomeFragment : Fragment() {
 
             shrimps.observe(this, Observer {
                 recycler.adapter!!.notifyDataSetChanged()
-                Log.i("dataget", "calling")
+//                Log.i("dataget", "calling")
             })
 
             it.addOnItemTouchListener(
@@ -124,8 +123,6 @@ class HomeFragment : Fragment() {
                             val intent = Intent(activity, PondInfoActivity::class.java)
                             intent.putExtra("position", position.toString())
                             startActivity(intent)
-
-                            Log.i("FirebaseDB", "item")
                         }
 
                         override fun onLongItemClick(view: View?, position: Int) {
