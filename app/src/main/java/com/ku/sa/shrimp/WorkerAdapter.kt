@@ -5,24 +5,26 @@ import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Context
-import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.ku.sa.shrimp.data.Job
 import com.ku.sa.shrimp.data.User
 import com.ku.sa.shrimp.data.Util
 import com.ku.sa.shrimp.data.model.Pond
-import kotlinx.android.synthetic.main.assignwork.*
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
-import kotlin.collections.HashMap
 
 class WorkerAdapter(
     private val users: MutableLiveData<ArrayList<User>>,
@@ -32,8 +34,16 @@ class WorkerAdapter(
     RecyclerView.Adapter<WorkerAdapter.ViewHolder>() {
 
     val mRef = FirebaseDatabase.getInstance().reference
+    lateinit var context: Context
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, i: Int) {
+
+        val jobs = MutableLiveData<ArrayList<Job>>()
+        jobs.value = ArrayList()
+        val tmp = ArrayList<Job>()
+
+
+
         holder.also { h ->
             h.getWorkName.text = "${users.value!![i].fName} ${users.value!![i].lName}"
             h.getDialogLayout.setOnClickListener {
@@ -121,19 +131,34 @@ class WorkerAdapter(
                 next3month.add(Calendar.MONTH, 3)
                 confirm.setOnClickListener { _ ->
                     if (c.time.time <= System.currentTimeMillis()) {
-                        Toast.makeText(it.context, "วันที่และเวลาไม่สามรถน้อยกว่าเวลาปัจจุบันได้", Toast.LENGTH_LONG).show()
-                    }
-                    else if (c.time.time > next3month.time.time) {
-                        Toast.makeText(it.context, "วันที่และเวลาไม่สามรถมากกว่า 3 เดือนได้", Toast.LENGTH_LONG).show()
-                    }
-                    else {
+                        Toast.makeText(
+                            it.context,
+                            "วันที่และเวลาไม่สามรถน้อยกว่าเวลาปัจจุบันได้",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    } else if (c.time.time > next3month.time.time) {
+                        Toast.makeText(
+                            it.context,
+                            "วันที่และเวลาไม่สามรถมากกว่า 3 เดือนได้",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    } else {
                         val user = users.value!![i]
-                        val newJob = Job("", user.user_id, pond.pond_id, task_id, desc.text.toString().trim(), c.time.time, Job.JUST_SEND)
+                        val newJob = Job(
+                            "",
+                            user.user_id,
+                            pond.pond_id,
+                            task_id,
+                            desc.text.toString().trim(),
+                            c.time.time,
+                            Job.JUST_SEND
+                        )
 
                         val key = mRef.child("jobs").push().key!!
                         newJob.job_id = key
                         mRef.child("jobs").child(newJob.job_id).setValue(newJob)
 
+                        Toast.makeText(it.context, "เพิ่มงานสำเร็จ", Toast.LENGTH_LONG).show()
                         dia.dismiss()
                     }
 
@@ -142,8 +167,37 @@ class WorkerAdapter(
                 dia.show()
             }
 
+            mRef.child("jobs").orderByChild("user_id").equalTo(users.value!![i].user_id)
+                .addValueEventListener(object : ValueEventListener {
+                    override fun onCancelled(p0: DatabaseError) {}
+                    override fun onDataChange(p0: DataSnapshot) {
+                        tmp.clear()
+                        p0.children.forEach {
+                            val j = it.getValue(Job::class.java)!!
+                            if (j.pond_id == pond.pond_id) {
+                                tmp.add(j)
+                            }
+                        }
+                        jobs.value = tmp
+                        Log.i("dialogjob", jobs.value!!.toString())
+                    }
+                })
+
+
+
+            h.getRecycler.layoutManager = LinearLayoutManager(h.context)
+            h.getRecycler.adapter = WorkerTaskAdapter(
+                jobs,
+                tasks,
+                users.value!![i]
+            )
+            jobs.observe(context as LifecycleOwner, androidx.lifecycle.Observer {
+                Log.i("dialogjob", "notifyDataSetChanged")
+                h.getRecycler.adapter!!.notifyDataSetChanged()
+            })
 
         }
+
 
     }
 
@@ -152,10 +206,11 @@ class WorkerAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, pos: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.worker_display_item, parent, false)
-        return ViewHolder(view)
+        context = parent.context
+        return ViewHolder(view, parent.context)
     }
 
-    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    inner class ViewHolder(view: View, val context: Context) : RecyclerView.ViewHolder(view) {
         //        val getTextPondName: TextView = view.textView_pond_name
         val getWorkName: TextView = view.findViewById(R.id.worker_name)!!
         val getRecycler: RecyclerView = view.findViewById(R.id.display_task_recycler)

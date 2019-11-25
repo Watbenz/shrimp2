@@ -30,7 +30,6 @@ import com.ku.sa.shrimp.ui.RecyclerMenuClickListener
 class HomeFragment : Fragment() {
 
     private val mRef = FirebaseDatabase.getInstance().reference
-    private lateinit var homeViewModel: HomeViewModel
     private lateinit var query1: Query
     private lateinit var query2: Query
     private lateinit var query3: Query

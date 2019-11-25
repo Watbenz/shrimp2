@@ -67,7 +67,7 @@ class PondInfoActivity : AppCompatActivity() {
                 }
             }
         })
-//        recycler_layout.addView()
+
 
         employee_recycler.also {
             it.layoutManager = LinearLayoutManager(this)
