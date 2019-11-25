@@ -3,10 +3,17 @@
     <color name="colorPrimary">@color/yellow_american</color>
     <color name="colorPrimaryDark">@color/blue_cyan</color>
     <color name="colorAccent">#D81B60</color>
+    <color name="blue_dark">#013F73</color>
 
     <color name="black_overlay">#66000000</color>
 
     <color name="yellow_american">#ffb600</color>
     <color name="white_proper">#DDDDDD</color>
     <color name="blue_cyan">#589ea5</color>
+
+    <color name="grey_away">#999999</color>
+    <color name="yellow_accept">#F0882f</color>
+    <color name="red_new">#F40234</color>
+    <color name="green_success">#688b2e</color>
+    <color name="green_light">#7FE706</color>
 </resources>

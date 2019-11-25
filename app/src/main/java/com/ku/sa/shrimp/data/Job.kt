@@ -10,7 +10,7 @@ data class Job(
     var output: Int = JUST_SEND
 ) {
     companion object {
-        const val DOING = 2
+        const val DONE = 2
         const val ACCEPT = 1
         const val JUST_SEND = 0
         const val AWAY = -1

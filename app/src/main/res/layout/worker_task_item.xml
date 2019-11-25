@@ -35,11 +35,18 @@
             android:text="31/10/19" />
 
         <ImageView
-            android:id="@+id/imageView4"
+            android:id="@+id/status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0"
-            app:srcCompat="@drawable/custom_checkbox" />
+            app:srcCompat="@drawable/ic_check_circle_black_24dp" />
+
+        <TextView
+            android:id="@+id/status_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="สถานะ"
+            android:textSize="10sp" />
 
 
     </LinearLayout>

@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -14,17 +13,20 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.database.*
 import com.google.gson.Gson
 import com.ku.sa.shrimp.PondInfoActivity
 import com.ku.sa.shrimp.R
+import com.ku.sa.shrimp.data.Job
 import com.ku.sa.shrimp.data.Shrimp
 import com.ku.sa.shrimp.data.Util
 import com.ku.sa.shrimp.data.model.Pond
 import com.ku.sa.shrimp.ui.RecyclerMenuClickListener
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 
 class HomeFragment : Fragment() {
@@ -61,11 +63,63 @@ class HomeFragment : Fragment() {
                 setViewForAdmin(root)
             }
             1 -> {
-
+                setViewForWorker(root)
             }
         }
 
         return root
+    }
+
+    private fun setViewForWorker(root: View) {
+        val recycler: RecyclerView = root.findViewById(R.id.recyclerView_farm)
+        val user = Util.currentUser
+
+        val jobs = MutableLiveData<ArrayList<Job>>()
+        val tmp = ArrayList<Job>()
+        jobs.value = ArrayList()
+
+        mRef.child("jobs")
+            .orderByChild("user_id")
+            .equalTo(user.user_id)
+            .addValueEventListener(object : ValueEventListener {
+            override fun onCancelled(p0: DatabaseError) {}
+            override fun onDataChange(p0: DataSnapshot) {
+                tmp.clear()
+                p0.children.forEach { tmp.add(it.getValue(Job::class.java)!!) }
+                // sort jobs by time -> lastest first
+                tmp.sortWith(Comparator { a, b -> b.time.compareTo(a.time) })
+                jobs.value = tmp
+            }
+        })
+
+        val pondMap = HashMap<String, Int>()
+        mRef.child("ponds").addValueEventListener(object : ValueEventListener {
+            override fun onCancelled(p0: DatabaseError) {}
+            override fun onDataChange(p0: DataSnapshot) {
+                pondMap.clear()
+                p0.children.forEachIndexed { i, it ->
+                    pondMap[it.key!!] = i + 1
+                }
+            }
+        })
+
+        val taskName = HashMap<String, String>()
+        mRef.child("task_name").addValueEventListener(object : ValueEventListener {
+            override fun onCancelled(p0: DatabaseError) {}
+            override fun onDataChange(p0: DataSnapshot) {
+                taskName.clear()
+                p0.children.forEachIndexed { i, it ->
+                    taskName[it.key!!] = it.child("name").getValue(String::class.java)!!
+                }
+            }
+        })
+
+        recycler.layoutManager = LinearLayoutManager(context)
+        recycler.adapter = WorkerJobsAdapter(jobs, pondMap, taskName)
+
+        jobs.observe(this, Observer {
+            recycler.adapter!!.notifyDataSetChanged()
+        })
     }
 
     private fun setViewForAdmin(root: View) {
@@ -76,9 +130,9 @@ class HomeFragment : Fragment() {
         val recycler: RecyclerView = root.findViewById(R.id.recyclerView_farm)
         val addPond = root.findViewById<Button>(R.id.button5)
 
+        shrimps.value = ArrayList()
         addPond.isVisible = true
 
-        shrimps.value = ArrayList()
 
         mRef.child("shrimp_code").addValueEventListener(object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {}
