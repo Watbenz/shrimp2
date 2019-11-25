@@ -3,24 +3,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
         <TextView
             android:id="@+id/textView17"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="100dp"
             android:layout_marginTop="30dp"
-            android:text="@string/prompt_email"
-            app:layout_constraintStart_toEndOf="@+id/user_textView"
-            app:layout_constraintTop_toBottomOf="@+id/textView12" />
+            android:text="Email"
+            app:layout_constraintTop_toBottomOf="@+id/textView15"
+            tools:layout_editor_absoluteX="2dp" />
 
         <TextView
             android:id="@+id/textView8"
@@ -83,7 +82,7 @@
             android:layout_marginTop="30dp"
             android:text="เบอร์โทรศัพท์"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView15" />
+            app:layout_constraintTop_toBottomOf="@+id/textView17" />
 
         <TextView
             android:id="@+id/email_textView"
@@ -93,7 +92,7 @@
             android:layout_marginTop="30dp"
             android:text="tae@gmail.com"
             app:layout_constraintStart_toEndOf="@+id/textView17"
-            app:layout_constraintTop_toBottomOf="@+id/lname_textView" />
+            app:layout_constraintTop_toBottomOf="@+id/textView15" />
 
         <TextView
             android:id="@+id/tel_textView"
@@ -103,7 +102,7 @@
             android:layout_marginTop="30dp"
             android:text="08xxxxxxx"
             app:layout_constraintStart_toEndOf="@+id/textView21"
-            app:layout_constraintTop_toBottomOf="@+id/user_textView" />
+            app:layout_constraintTop_toBottomOf="@+id/email_textView" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

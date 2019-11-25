@@ -11,8 +11,9 @@ data class Job(
     var accept: Int = JUST_SEND
 ) {
     companion object {
-        val ACCEPT = 1
-        val DENY = -1
-        val JUST_SEND = 0
+        const val DOING = 2
+        const val ACCEPT = 1
+        const val JUST_SEND = 0
+        const val AWAY = -1
     }
 }

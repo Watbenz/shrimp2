@@ -13,7 +13,9 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.gson.Gson
 import com.ku.sa.shrimp.data.User
+import com.ku.sa.shrimp.data.model.Pond
 import kotlinx.android.synthetic.main.fragment_notifications.*
 
 class PondInfoActivity : AppCompatActivity() {
@@ -46,7 +48,8 @@ class PondInfoActivity : AppCompatActivity() {
 
             })
 
-        val pos = intent.getStringExtra("position")!!.toInt()
+        val pos = intent.getStringExtra("pos")!!.toInt()
+        val pond:Pond = Gson().fromJson(intent.getStringExtra("pond")!!, Pond::class.java)
         imageView.setImageResource(R.drawable.shrimp)
         worker_label.text = "รายชื่อลูกจ้าง"
         worker_name_textView.text = "บ่อที่ ${pos + 1}"
@@ -58,7 +61,7 @@ class PondInfoActivity : AppCompatActivity() {
 
         employee_recycler.also {
             it.layoutManager = LinearLayoutManager(this)
-            it.adapter = WorkerAdapter(users)
+            it.adapter = WorkerAdapter(users, pond)
         }
 
         users.observe(this, Observer {

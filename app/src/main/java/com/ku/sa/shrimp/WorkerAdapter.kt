@@ -6,6 +6,7 @@ import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,13 +14,16 @@ import android.widget.*
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.database.FirebaseDatabase
+import com.ku.sa.shrimp.data.Job
 import com.ku.sa.shrimp.data.User
+import com.ku.sa.shrimp.data.Util
+import com.ku.sa.shrimp.data.model.Pond
 import kotlinx.android.synthetic.main.assignwork.*
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
-class WorkerAdapter(val users: MutableLiveData<ArrayList<User>>) :
+class WorkerAdapter(val users: MutableLiveData<ArrayList<User>>, val pond: Pond) :
     RecyclerView.Adapter<WorkerAdapter.ViewHolder>() {
 
     val mRef = FirebaseDatabase.getInstance().getReference()
@@ -28,6 +32,8 @@ class WorkerAdapter(val users: MutableLiveData<ArrayList<User>>) :
 
         holder.apply {
             getWorkName.text = "${users.value!![i].fName} ${users.value!![i].lName}"
+            Log.i("dialogjob", "user id: " + users.value!![i].user_id)
+            Log.i("dialogjob", "curr id: " + Util.currentUser.user_id)
             getDialogLayout.setOnClickListener {
                 val dialogBuilder = AlertDialog.Builder(it.context)
                 // ...Irrelevant code for customizing the buttons and title
@@ -57,6 +63,7 @@ class WorkerAdapter(val users: MutableLiveData<ArrayList<User>>) :
                 // Finally, data bind the spinner object with dapter
                 val spinner = dialogView.findViewById<Spinner>(R.id.spinner)
                 val adapter = ArrayAdapter(it.context, android.R.layout.simple_spinner_item, work)
+                var event = ""
                 adapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line)
                 spinner.adapter = adapter
 
@@ -72,11 +79,10 @@ class WorkerAdapter(val users: MutableLiveData<ArrayList<User>>) :
                         val text_view = dialogView.findViewById<TextView>(R.id.text_view)
                         text_view.text =
                             "Spinner selected : ${parent.getItemAtPosition(position).toString()}"
+                        event = parent.getItemAtPosition(position).toString()
                     }
 
-                    override fun onNothingSelected(parent: AdapterView<*>) {
-                        // Another interface callback
-                    }
+                    override fun onNothingSelected(parent: AdapterView<*>) {}
                 }
 
                 val btn = dialogView.findViewById<Button>(R.id.btn)
@@ -87,13 +93,11 @@ class WorkerAdapter(val users: MutableLiveData<ArrayList<User>>) :
                         DatePickerDialog.OnDateSetListener { view, year, monthOfYear, day ->
                             // Display Selected date in textbox
                             datetext.setText("วันที่ " + day + " เดือน " + monthOfYear + " ปี " + year)
-                        },
-                        year,
-                        mth,
-                        day
+                        }, year, mth, day
                     )
                     dpd.show()
                 }
+
 
                 val btn2 = dialogView.findViewById<Button>(R.id.btn2)
                 val datetext2 = dialogView.findViewById<TextView>(R.id.datetext2)
@@ -114,10 +118,16 @@ class WorkerAdapter(val users: MutableLiveData<ArrayList<User>>) :
                         true
                     ).show()
 
-                    val confirm = dialogView.findViewById<Button>(R.id.confirm)
-                    confirm.setOnClickListener {
-                        d.dismiss()
-                    }
+
+                }
+
+                // click confirm
+                val confirm = dialogView.findViewById<Button>(R.id.confirm)
+                confirm.setOnClickListener {
+                    val user = users.value!![i]
+                    val newJob = Job("", user.user_id, pond.pond_id, "", "", 0, false, Job.JUST_SEND)
+                    Log.i("dialogjob", "newJob: $newJob")
+                    d.dismiss()
                 }
 
                 d.show()

@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
@@ -16,9 +17,11 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.database.*
+import com.google.gson.Gson
 import com.ku.sa.shrimp.PondInfoActivity
 import com.ku.sa.shrimp.R
 import com.ku.sa.shrimp.data.Shrimp
+import com.ku.sa.shrimp.data.Util
 import com.ku.sa.shrimp.data.model.Pond
 import com.ku.sa.shrimp.ui.RecyclerMenuClickListener
 
@@ -48,12 +51,35 @@ class HomeFragment : Fragment() {
 
         val root = inflater.inflate(R.layout.fragment_home, container, false)
 
-        val recycler: RecyclerView = root.findViewById(R.id.recyclerView_farm)
 
+        Log.i("dialogjob2", "user type: " + Util.currentUser.toString())
+        when (Util.currentUser.type) {
+            0 -> {
+                setViewForAdmin(root)
+            }
+            1 -> {
+
+            }
+        }
+
+
+
+        return root
+    }
+
+    //    override fun onPause() {
+//        super.onPause()
+//        query1.removeEventListener(listener1)
+//    }
+    private fun setViewForAdmin(root: View) {
         val ponds = ArrayList<Pond>()
         val shrimps = MutableLiveData<ArrayList<Shrimp>>()
         val tmp = ArrayList<Shrimp>()
         val code = HashMap<String, String>()
+        val recycler: RecyclerView = root.findViewById(R.id.recyclerView_farm)
+        val addPond = root.findViewById<Button>(R.id.button5)
+
+        addPond.isVisible = true
 
         shrimps.value = ArrayList()
 
@@ -61,10 +87,10 @@ class HomeFragment : Fragment() {
             override fun onCancelled(p0: DatabaseError) {}
             override fun onDataChange(p0: DataSnapshot) {
                 p0.children.forEach { s1 ->
-//                    s1.children.forEach { s2 ->
-                        val key = s1.key!!
-                        code[s1.key!!] = s1.child("name").getValue(String::class.java)!!
-                Log.i("dataget", "shrimpCode: ${key}")
+                    //                    s1.children.forEach { s2 ->
+                    val key = s1.key!!
+                    code[s1.key!!] = s1.child("name").getValue(String::class.java)!!
+                    Log.i("dataget", "shrimpCode: ${key}")
 
                 }
             }
@@ -98,12 +124,9 @@ class HomeFragment : Fragment() {
                 }
             }
         }
+
         query2 = mRef.child("ponds")
         query2.addValueEventListener(listener2)
-
-
-
-
 
         recycler.also {
             it.layoutManager = LinearLayoutManager(context)
@@ -121,7 +144,8 @@ class HomeFragment : Fragment() {
                     object : RecyclerMenuClickListener.OnItemClickListener {
                         override fun onItemClick(view: View?, position: Int) {
                             val intent = Intent(activity, PondInfoActivity::class.java)
-                            intent.putExtra("position", position.toString())
+                            intent.putExtra("pond", Gson().toJson(ponds[position]))
+                            intent.putExtra("pos", "$position")
                             startActivity(intent)
                         }
 
@@ -133,7 +157,6 @@ class HomeFragment : Fragment() {
 
 
         }
-
 
         val button = root.findViewById<Button>(R.id.button5)
         button.setOnClickListener {
@@ -228,14 +251,5 @@ class HomeFragment : Fragment() {
 
 
         }
-
-
-
-        return root
     }
-
-//    override fun onPause() {
-//        super.onPause()
-//        query1.removeEventListener(listener1)
-//    }
 }

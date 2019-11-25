@@ -64,9 +64,8 @@ class NotificationsFragment : Fragment() {
 
         name.text = "${Util.currentUser.fName} ${Util.currentUser.lName}"
 
-        Log.i("registery", "current: " + Util.currentUser.toString())
-
         // set layout display for each user
+        Log.i("dialogjob2", "profile: " + Util.currentUser.toString())
         when (Util.currentUser.type) {
             0 -> {
                 pos.text = "หัวหน้า"
@@ -118,9 +117,9 @@ class NotificationsFragment : Fragment() {
         return root
     }
 
-    override fun onStop() {
-        super.onStop()
-        query1.removeEventListener(listener)
-    }
+//    override fun onStop() {
+//        super.onStop()
+//        query1.removeEventListener(listener)
+//    }
 
 }
